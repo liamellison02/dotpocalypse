@@ -42,43 +42,6 @@ Get tips from your Y2K-era Wall Street advisor. This AI character offers advice 
 - 🧠 **AI Integration**: OpenAI API for the investment advisor and news generation
 - 💽 **Data Persistence**: Supabase for saving game progress
 
-## 🚀 Getting Started
-
-### 📋 Prerequisites
-
-- Node.js 14+ and npm
-- Supabase account
-- OpenAI API key
-
-### ⚙️ Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/dotpocalypse.git
-cd dotpocalypse
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Create a `.env` file with your API keys:
-```
-REACT_APP_SUPABASE_URL=your_supabase_url
-REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
-REACT_APP_OPENAI_API_KEY=your_openai_api_key
-```
-
-4. Start the development server:
-```bash
-npm start
-```
-
-### 🗄️ Supabase Setup
-
-Follow the instructions in [DEPLOYMENT.md](DEPLOYMENT.md) to set up the required Supabase tables and security policies.
-
 ## 🎮 Game Mechanics
 
 ### 📅 Market Stages
@@ -138,6 +101,43 @@ dotpocalypse/
     ├── data/                 # Data files including company data
     └── App.tsx               # Main application component
 ```
+
+## 🚀 Getting Started
+
+### 📋 Prerequisites
+
+- Node.js 14+ and npm
+- Supabase account
+- OpenAI API key
+
+### ⚙️ Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/dotpocalypse.git
+cd dotpocalypse
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Create a `.env` file with your API keys:
+```
+REACT_APP_SUPABASE_URL=your_supabase_url
+REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
+REACT_APP_OPENAI_API_KEY=your_openai_api_key
+```
+
+4. Start the development server:
+```bash
+npm start
+```
+
+### 🗄️ Supabase Setup
+
+Follow the instructions in [DEPLOYMENT.md](DEPLOYMENT.md) to set up the required Supabase tables and security policies.
 
 ## 🚀 Deployment
 
