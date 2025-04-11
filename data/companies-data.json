@@ -1,0 +1,294 @@
+{
+  "notorious": [
+    {
+      "name": "Pets.com",
+      "description": "Iconic failure, sock puppet mascot, crashed in less than 2 years.",
+      "category": "E-commerce",
+      "initialPrice": 11,
+      "peakPrice": 14,
+      "volatility": "high",
+      "survivalChance": "very low"
+    },
+    {
+      "name": "Webvan",
+      "description": "Online grocery delivery, burned through $1B+ and went bankrupt.",
+      "category": "E-commerce",
+      "initialPrice": 15,
+      "peakPrice": 34,
+      "volatility": "extreme",
+      "survivalChance": "very low"
+    },
+    {
+      "name": "eToys",
+      "description": "Online toy store, went bust after the holiday season flop.",
+      "category": "E-commerce",
+      "initialPrice": 20,
+      "peakPrice": 86,
+      "volatility": "high",
+      "survivalChance": "low"
+    },
+    {
+      "name": "Kozmo.com",
+      "description": "Promised 1-hour delivery of anything... without charging delivery fees.",
+      "category": "Delivery",
+      "initialPrice": 13,
+      "peakPrice": 28,
+      "volatility": "high",
+      "survivalChance": "very low"
+    },
+    {
+      "name": "Boo.com",
+      "description": "Fashion e-commerce site that burned through $135M in 18 months.",
+      "category": "E-commerce",
+      "initialPrice": 9,
+      "peakPrice": 22,
+      "volatility": "extreme",
+      "survivalChance": "very low"
+    },
+    {
+      "name": "TheGlobe.com",
+      "description": "Social networking before social networking was a thing.",
+      "category": "Social Media",
+      "initialPrice": 9,
+      "peakPrice": 97,
+      "volatility": "extreme",
+      "survivalChance": "low"
+    },
+    {
+      "name": "Broadcast.com",
+      "description": "Acquired by Yahoo for $5.7B, made Mark Cuban rich.",
+      "category": "Media",
+      "initialPrice": 18,
+      "peakPrice": 74,
+      "volatility": "high",
+      "survivalChance": "medium"
+    },
+    {
+      "name": "Flooz.com",
+      "description": "Digital currency before crypto, endorsed by Whoopi Goldberg.",
+      "category": "Fintech",
+      "initialPrice": 10,
+      "peakPrice": 25,
+      "volatility": "high",
+      "survivalChance": "very low"
+    },
+    {
+      "name": "AllAdvantage",
+      "description": "Paid users to surf the web with ad toolbars.",
+      "category": "Advertising",
+      "initialPrice": 12,
+      "peakPrice": 31,
+      "volatility": "high",
+      "survivalChance": "very low"
+    },
+    {
+      "name": "Infospace",
+      "description": "Inflated valuation; later investigated for fraud.",
+      "category": "Information Services",
+      "initialPrice": 15,
+      "peakPrice": 138,
+      "volatility": "extreme",
+      "survivalChance": "low"
+    },
+    {
+      "name": "Excite@Home",
+      "description": "Once a major search engine + ISP combo, filed for bankruptcy.",
+      "category": "Internet Services",
+      "initialPrice": 17,
+      "peakPrice": 59,
+      "volatility": "high",
+      "survivalChance": "low"
+    },
+    {
+      "name": "Beenz.com",
+      "description": "Internet currency competitor to Flooz.",
+      "category": "Fintech",
+      "initialPrice": 8,
+      "peakPrice": 19,
+      "volatility": "high",
+      "survivalChance": "very low"
+    },
+    {
+      "name": "AltaVista",
+      "description": "Search engine, acquired by Yahoo, got overshadowed by Google.",
+      "category": "Search",
+      "initialPrice": 19,
+      "peakPrice": 43,
+      "volatility": "medium",
+      "survivalChance": "medium"
+    },
+    {
+      "name": "NetZero",
+      "description": "Free internet access provider, still somehow alive in small form.",
+      "category": "Internet Services",
+      "initialPrice": 16,
+      "peakPrice": 40,
+      "volatility": "medium",
+      "survivalChance": "medium"
+    },
+    {
+      "name": "Xoom.com",
+      "description": "Online utilities billing/payment, not related to modern Xoom (PayPal).",
+      "category": "Internet Services",
+      "initialPrice": 14,
+      "peakPrice": 32,
+      "volatility": "medium",
+      "survivalChance": "low"
+    },
+    {
+      "name": "CyberRebate",
+      "description": "Promised 100% rebates... until it didn't.",
+      "category": "E-commerce",
+      "initialPrice": 7,
+      "peakPrice": 18,
+      "volatility": "high",
+      "survivalChance": "very low"
+    },
+    {
+      "name": "Open Market",
+      "description": "Early e-commerce platform, stock soared, then crashed.",
+      "category": "E-commerce",
+      "initialPrice": 12,
+      "peakPrice": 65,
+      "volatility": "high",
+      "survivalChance": "low"
+    },
+    {
+      "name": "Egghead.com",
+      "description": "Software/hardware seller, eventually went bankrupt.",
+      "category": "E-commerce",
+      "initialPrice": 10,
+      "peakPrice": 24,
+      "volatility": "medium",
+      "survivalChance": "low"
+    },
+    {
+      "name": "VerticalNet",
+      "description": "Industry-specific B2B marketplaces, overhyped.",
+      "category": "B2B",
+      "initialPrice": 16,
+      "peakPrice": 148,
+      "volatility": "extreme",
+      "survivalChance": "low"
+    },
+    {
+      "name": "Value America",
+      "description": "Retailer promising everything under the sun, failed to deliver.",
+      "category": "E-commerce",
+      "initialPrice": 23,
+      "peakPrice": 74,
+      "volatility": "high",
+      "survivalChance": "very low"
+    },
+    {
+      "name": "DrKoop.com",
+      "description": "Health website launched by a former U.S. Surgeon General.",
+      "category": "Health",
+      "initialPrice": 9,
+      "peakPrice": 45,
+      "volatility": "high",
+      "survivalChance": "very low"
+    },
+    {
+      "name": "Buy.com",
+      "description": "Massive discounts, bleeding money, still exists today (kinda).",
+      "category": "E-commerce",
+      "initialPrice": 13,
+      "peakPrice": 35,
+      "volatility": "medium",
+      "survivalChance": "medium"
+    }
+  ],
+  "survivors": [
+    {
+      "name": "Yahoo",
+      "description": "Boomed and busted but still limps along (now owned by Apollo).",
+      "category": "Internet Services",
+      "initialPrice": 13,
+      "peakPrice": 118,
+      "volatility": "high",
+      "survivalChance": "high"
+    },
+    {
+      "name": "Amazon",
+      "description": "Survived and dominated. Took massive losses early on.",
+      "category": "E-commerce",
+      "initialPrice": 18,
+      "peakPrice": 107,
+      "volatility": "high",
+      "survivalChance": "very high"
+    },
+    {
+      "name": "eBay",
+      "description": "One of the few dotcoms that thrived after the crash.",
+      "category": "E-commerce",
+      "initialPrice": 18,
+      "peakPrice": 59,
+      "volatility": "medium",
+      "survivalChance": "very high"
+    },
+    {
+      "name": "Google",
+      "description": "Technically founded in 1998, IPO'd in 2004 — missed the bubble burst.",
+      "category": "Search",
+      "initialPrice": 85,
+      "peakPrice": 113,
+      "volatility": "low",
+      "survivalChance": "very high"
+    },
+    {
+      "name": "Oracle",
+      "description": "Was around pre-bubble but had a wild ride during it.",
+      "category": "Enterprise Software",
+      "initialPrice": 21,
+      "peakPrice": 46,
+      "volatility": "medium",
+      "survivalChance": "very high"
+    },
+    {
+      "name": "Cisco",
+      "description": "Market cap plummeted during the crash, but still relevant.",
+      "category": "Networking",
+      "initialPrice": 24,
+      "peakPrice": 82,
+      "volatility": "medium",
+      "survivalChance": "very high"
+    },
+    {
+      "name": "AOL",
+      "description": "Huge in the early internet era, merged with Time Warner in a disastrous deal.",
+      "category": "Internet Services",
+      "initialPrice": 11,
+      "peakPrice": 94,
+      "volatility": "high",
+      "survivalChance": "high"
+    },
+    {
+      "name": "Red Hat",
+      "description": "Survived and thrived in enterprise Linux; acquired by IBM later.",
+      "category": "Enterprise Software",
+      "initialPrice": 14,
+      "peakPrice": 151,
+      "volatility": "high",
+      "survivalChance": "high"
+    },
+    {
+      "name": "Ask Jeeves",
+      "description": "Search engine with a butler mascot; now Ask.com.",
+      "category": "Search",
+      "initialPrice": 14,
+      "peakPrice": 190,
+      "volatility": "extreme",
+      "survivalChance": "medium"
+    },
+    {
+      "name": "Lycos",
+      "description": "Search engine turned media site, changed ownership several times.",
+      "category": "Search",
+      "initialPrice": 16,
+      "peakPrice": 93,
+      "volatility": "high",
+      "survivalChance": "medium"
+    }
+  ]
+}
