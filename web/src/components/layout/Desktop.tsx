@@ -26,11 +26,6 @@ const StyledAppBar = styled(AppBar)`
   top: auto;
 `;
 
-const LogoImage = styled.img`
-  height: 20px;
-  margin-right: 5px;
-`;
-
 const Desktop: React.FC<DesktopProps> = ({ children }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -48,9 +43,10 @@ const Desktop: React.FC<DesktopProps> = ({ children }) => {
               active={open}
               style={{ fontWeight: 'bold' }}
             >
-              <LogoImage
-                src="/branding/dotpocalypse-mark.png"
-                alt="Dotpocalypse logo"
+              <img
+                src="/images/windows-logo.png"
+                alt="windows logo"
+                style={{ height: '20px', marginRight: '5px' }}
               />
               Start
             </Button>
