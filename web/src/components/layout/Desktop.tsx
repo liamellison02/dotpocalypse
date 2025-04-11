@@ -26,6 +26,11 @@ const StyledAppBar = styled(AppBar)`
   top: auto;
 `;
 
+const LogoImage = styled.img`
+  height: 20px;
+  margin-right: 5px;
+`;
+
 const Desktop: React.FC<DesktopProps> = ({ children }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -43,10 +48,9 @@ const Desktop: React.FC<DesktopProps> = ({ children }) => {
               active={open}
               style={{ fontWeight: 'bold' }}
             >
-              <img
-                src="/images/windows-logo.png"
-                alt="windows logo"
-                style={{ height: '20px', marginRight: '5px' }}
+              <LogoImage
+                src="/branding/dotpocalypse-mark.png"
+                alt="Dotpocalypse logo"
               />
               Start
             </Button>
@@ -107,7 +111,7 @@ const Desktop: React.FC<DesktopProps> = ({ children }) => {
             )}
           </div>
           <span style={{ fontFamily: 'MS Sans Serif', fontSize: '12px' }}>
-            {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            Dotpocalypse | {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
         </Toolbar>
       </StyledAppBar>
