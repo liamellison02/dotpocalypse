@@ -1,4 +1,4 @@
-# 💻 Dotpocalypse 📈📉
+# 💻 [Dotpocalypse](https://dotpocalypse.vercel.app/) 📈📉
 
 Imagine it's 1998 and you're given a Bloomberg Terminal and ChatGPT. Can you survive the infamous crash of the dot-com bubble?
 
