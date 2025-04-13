@@ -2,7 +2,7 @@
 
 Imagine it's 1998 and you're given a Bloomberg Terminal and ChatGPT. Can you survive the infamous crash of the dot-com bubble?
 
-Dotpocalypse is a Windows 98-themed stock market simulator that recreates the dotcom bubble era, complete with an AI investment advisor and realistic market mechanics. 💰 🚀 💥
+In honor of financial literacy month, Dotpocalypse is a Windows 98-themed stock market simulator that recreates the dotcom bubble era, complete with an AI investment advisor and realistic market mechanics. 💰 🚀 💥
 
 ![Survive the Crash!](./assets/main-window.png)
 
