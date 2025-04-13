@@ -1,13 +1,11 @@
 import OpenAI from 'openai';
 import { Stock, MarketState } from './stockMarketSimulation';
 
-// Initialize OpenAI client
 const openai = new OpenAI({
   apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true // Allow API key usage in browser for this demo
+  dangerouslyAllowBrowser: true
 });
 
-// Function to generate investment advice using OpenAI
 export const generateInvestmentAdvice = async (
   userMessage: string,
   stocks: Stock[],
@@ -16,7 +14,6 @@ export const generateInvestmentAdvice = async (
   cash: number
 ): Promise<string> => {
   try {
-    // Create a context for the AI based on market conditions and portfolio
     const portfolioStocks = Object.entries(portfolio).map(([stockId, shares]) => {
       const stock = stocks.find(s => s.id === stockId);
       return stock ? `${stock.name} (${stock.symbol}): ${shares} shares at $${stock.price.toFixed(2)} per share` : null;
@@ -49,7 +46,6 @@ export const generateInvestmentAdvice = async (
       ${topStocks.join('\n')}
     `;
 
-    // Create the prompt for OpenAI
     const prompt = `
       You are a Y2K-era Wall Street investment advisor during the dotcom bubble. You have a finance bro personality but don't make it too overbearing. You're enthusiastic about internet stocks and the "new economy" but your advice should vary based on the current market stage.
       
@@ -65,10 +61,9 @@ export const generateInvestmentAdvice = async (
       - decline: Reassuring but cautious, suggest focusing on quality companies
       - crash: Acknowledge problems but look for "bargains" and survivors
       
-      Keep your response concise (under 150 words) and conversational.
+      Keep your response concise (in between 20-150 words) and conversational.
     `;
 
-    // Call OpenAI API
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
@@ -86,7 +81,6 @@ export const generateInvestmentAdvice = async (
   }
 };
 
-// Function to generate news headlines using OpenAI
 export const generateNewsHeadlines = async (
   date: string,
   bubbleStage: string,
@@ -98,7 +92,6 @@ export const generateNewsHeadlines = async (
     const marketChange = ((marketIndex - previousMarketIndex) / previousMarketIndex) * 100;
     const isMarketUp = marketChange > 0;
     
-    // Select a few random stocks to potentially feature in news
     const shuffledStocks = [...stocks].sort(() => 0.5 - Math.random());
     const selectedStocks = shuffledStocks.slice(0, 3);
     
@@ -110,7 +103,6 @@ export const generateNewsHeadlines = async (
       return `${stock.name} (${stock.symbol}): Current price $${stock.price.toFixed(2)}, ${priceChange > 0 ? 'up' : 'down'} ${Math.abs(priceChange).toFixed(2)}%, Category: ${stock.category}`;
     }).join('\n');
     
-    // Create the prompt for OpenAI
     const prompt = `
       Generate 3 realistic news headlines and brief content for a dotcom bubble era stock market simulator set on ${date}. The current market stage is "${bubbleStage}" and the market index is ${isMarketUp ? 'up' : 'down'} ${Math.abs(marketChange).toFixed(2)}%.
       
@@ -142,7 +134,6 @@ export const generateNewsHeadlines = async (
       ]
     `;
 
-    // Call OpenAI API
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
@@ -156,10 +147,8 @@ export const generateNewsHeadlines = async (
     const text = response.choices[0]?.message.content?.trim() || "[]";
     
     try {
-      // Parse the JSON response
       const newsItems = JSON.parse(text);
       
-      // Add IDs and dates to each news item
       return newsItems.map((item: any) => ({
         ...item,
         id: `news-${Date.now()}-${Math.random()}`,

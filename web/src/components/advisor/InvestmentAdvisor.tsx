@@ -71,7 +71,6 @@ const InvestmentAdvisor: React.FC<AdvisorProps> = ({ stocks, market, portfolio, 
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Initialize with welcome message
   useEffect(() => {
     if (messages.length === 0) {
       const welcomeMessage = getWelcomeMessage();
@@ -86,7 +85,7 @@ const InvestmentAdvisor: React.FC<AdvisorProps> = ({ stocks, market, portfolio, 
     }
   }, []);
 
-  // Scroll to bottom when messages change
+  // scrolls to bottom when messages change
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -96,7 +95,6 @@ const InvestmentAdvisor: React.FC<AdvisorProps> = ({ stocks, market, portfolio, 
   const handleSendMessage = useCallback(async () => {
     if (!inputMessage.trim()) return;
 
-    // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       sender: 'user',
@@ -109,7 +107,7 @@ const InvestmentAdvisor: React.FC<AdvisorProps> = ({ stocks, market, portfolio, 
     setIsLoading(true);
 
     try {
-      // Call the OpenAI service to get a response
+      // get openai response
       const response = await import('../../lib/openaiService')
         .then(module => module.generateInvestmentAdvice(
           inputMessage,
@@ -206,7 +204,6 @@ const generateAdvisorResponse = (
 ): string => {
   const userMessageLower = userMessage.toLowerCase();
   
-  // Check for specific question types
   if (userMessageLower.includes('recommend') || userMessageLower.includes('what should i buy') || userMessageLower.includes('what stock')) {
     return getStockRecommendation(stocks, market);
   }
@@ -223,37 +220,31 @@ const generateAdvisorResponse = (
     return getSellAdvice(market);
   }
   
-  // Generic responses if no specific pattern is matched
   return getGenericResponse(market);
 };
 
 const getStockRecommendation = (stocks: Stock[], market: MarketState): string => {
-  // Filter stocks based on market stage
   let potentialStocks: Stock[] = [];
   
   switch (market.bubbleStage) {
     case 'early':
     case 'growth':
-      // In early stages, recommend established companies with good survival chances
       potentialStocks = stocks.filter(stock => 
         stock.survivalChance === 'high' || stock.survivalChance === 'very high'
       );
       break;
     case 'mania':
-      // In mania phase, recommend volatile tech stocks
       potentialStocks = stocks.filter(stock => 
         stock.volatility === 'high' || stock.volatility === 'extreme'
       );
       break;
     case 'peak':
-      // At peak, mix of recommendations
       potentialStocks = stocks.filter(stock => 
         stock.category === 'E-commerce' || stock.category === 'Search'
       );
       break;
     case 'decline':
     case 'crash':
-      // During decline/crash, recommend survivors
       potentialStocks = stocks.filter(stock => 
         stock.survivalChance === 'very high'
       );
@@ -262,17 +253,14 @@ const getStockRecommendation = (stocks: Stock[], market: MarketState): string =>
       potentialStocks = stocks;
   }
   
-  // If no stocks match criteria, use all stocks
   if (potentialStocks.length === 0) {
     potentialStocks = stocks;
   }
   
-  // Pick 1-3 random stocks from potential stocks
   const numRecommendations = Math.min(Math.floor(Math.random() * 3) + 1, potentialStocks.length);
   const shuffled = [...potentialStocks].sort(() => 0.5 - Math.random());
   const recommendations = shuffled.slice(0, numRecommendations);
   
-  // Generate response based on market stage
   let response = '';
   
   switch (market.bubbleStage) {
@@ -298,7 +286,6 @@ const getStockRecommendation = (stocks: Stock[], market: MarketState): string =>
       response = "Based on my analysis, you should look at ";
   }
   
-  // Add stock recommendations
   recommendations.forEach((stock, index) => {
     if (index === recommendations.length - 1 && recommendations.length > 1) {
       response += `and ${stock.name} (${stock.symbol})`;
@@ -307,7 +294,6 @@ const getStockRecommendation = (stocks: Stock[], market: MarketState): string =>
     }
   });
   
-  // Add reasoning
   response += `. ${getRecommendationReasoning(recommendations[0], market)}`;
   
   // Add Y2K finance bro flair
@@ -392,7 +378,6 @@ const getPortfolioAdvice = (
     advice = "Your portfolio is looking solid. The internet sector is still in growth mode, so stay invested and look for opportunities to add to your winners.";
   }
   
-  // Add specific stock commentary
   if (portfolioStocks.length > 0) {
     const randomStock = portfolioStocks[Math.floor(Math.random() * portfolioStocks.length)];
     if (randomStock.stock) {
@@ -444,7 +429,6 @@ const getGenericResponse = (market: MarketState): string => {
     "Warren Buffett doesn't get it. The old valuation models don't apply to internet stocks. This is a NEW PARADIGM!"
   ];
   
-  // Add market stage specific flair
   let response = genericResponses[Math.floor(Math.random() * genericResponses.length)];
   
   response += ` ${getFinanceBroFlair()}`;

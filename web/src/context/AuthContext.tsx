@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import supabase from '../lib/supabase';
 
-// Auth context type
 interface AuthContextType {
   user: any | null;
   loading: boolean;
@@ -10,7 +9,6 @@ interface AuthContextType {
   signOut: () => Promise<void>;
 }
 
-// Create context with default values
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
@@ -19,15 +17,12 @@ const AuthContext = createContext<AuthContextType>({
   signOut: async () => {},
 });
 
-// Hook to use auth context
 export const useAuth = () => useContext(AuthContext);
 
-// Auth provider component
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Check for user session on mount
   useEffect(() => {
     const fetchSession = async () => {
       try {
@@ -47,7 +42,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     fetchSession();
 
-    // Listen for auth changes
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state changed:', event, session?.user?.email);
@@ -56,13 +50,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     );
 
-    // Cleanup
     return () => {
       authListener.subscription.unsubscribe();
     };
   }, []);
 
-  // Sign in with email and password
   const signIn = async (email: string, password: string) => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
@@ -74,7 +66,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Sign up with email and password
   const signUp = async (email: string, password: string) => {
     try {
       const { data, error } = await supabase.auth.signUp({ email, password });
@@ -86,7 +77,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Sign out
   const signOut = async () => {
     try {
       const { error } = await supabase.auth.signOut();

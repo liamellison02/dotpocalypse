@@ -3,7 +3,6 @@ import { NewsItem as NewsItemType } from '../../lib/stockMarketSimulation';
 import styled from 'styled-components';
 import { ScrollView } from 'react95';
 
-// News Feed Component
 interface NewsFeedProps {
   news: NewsItemType[];
 }

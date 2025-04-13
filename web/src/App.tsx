@@ -11,10 +11,8 @@ import { useStockMarketSimulation } from './lib/stockMarketSimulation';
 import ErrorBoundary from './components/portfolio/ErrorBoundary';
 import './App.css';
 
-// Import company data
 import companiesData from './data/companies-data.json';
 
-// Lazy load components for code splitting
 const StockSimulation = lazy(() => import('./components/simulation/StockSimulation'));
 const InvestmentAdvisor = lazy(() => import('./components/advisor/InvestmentAdvisor'));
 const PortfolioManager = lazy(() => import('./components/portfolio/PortfolioManager'));
@@ -69,7 +67,6 @@ const SettingsValue = styled.div`
   flex: 1;
 `;
 
-// Loading component for code splitting
 const LoadingComponent = () => (
   <div style={{ 
     display: 'flex', 
@@ -82,7 +79,6 @@ const LoadingComponent = () => (
   </div>
 );
 
-// Main application component
 const AppContent: React.FC = () => {
   const { user, loading, signOut } = useAuth();
   const [initialized, setInitialized] = useState(false);
@@ -96,7 +92,6 @@ const AppContent: React.FC = () => {
     crashRandomness: 0.7,
   });
   
-  // Initialize stocks from company data - memoized to prevent unnecessary recalculations
   const initialStocks = useMemo(() => [
     ...companiesData.notorious.map(company => ({
       id: company.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
@@ -128,7 +123,6 @@ const AppContent: React.FC = () => {
     }))
   ], []);
   
-  // Initialize simulation
   const {
     stocks,
     market,
@@ -142,17 +136,15 @@ const AppContent: React.FC = () => {
     resetSimulation,
   } = useStockMarketSimulation(initialStocks, settings);
   
-  // Portfolio state
   const [portfolio, setPortfolio] = useState<{[key: string]: number}>({});
   const [cash, setCash] = useState(10000);
   
-  // Buy stock - memoized to prevent unnecessary recreations
   const buyStock = useCallback((stockId: string, shares: number) => {
     const stock = stocks.find(s => s.id === stockId);
     if (!stock) return;
     
     const cost = stock.price * shares;
-    if (cost > cash) return; // Not enough cash
+    if (cost > cash) return;
     
     setCash(prev => prev - cost);
     setPortfolio(prev => ({
@@ -161,7 +153,6 @@ const AppContent: React.FC = () => {
     }));
   }, [stocks, cash]);
   
-  // Sell stock - memoized to prevent unnecessary recreations
   const sellStock = useCallback((stockId: string, shares: number) => {
     const stock = stocks.find(s => s.id === stockId);
     if (!stock) return;
@@ -169,7 +160,7 @@ const AppContent: React.FC = () => {
     const currentShares = portfolio[stockId] || 0;
     const sharesToSell = Math.min(shares, currentShares);
     
-    if (sharesToSell <= 0) return; // No shares to sell
+    if (sharesToSell <= 0) return;
     
     const revenue = stock.price * sharesToSell;
     setCash(prev => prev + revenue);
@@ -178,7 +169,6 @@ const AppContent: React.FC = () => {
       const newPortfolio = { ...prev };
       newPortfolio[stockId] = currentShares - sharesToSell;
       
-      // Remove stock from portfolio if no shares left
       if (newPortfolio[stockId] <= 0) {
         delete newPortfolio[stockId];
       }
@@ -187,41 +177,17 @@ const AppContent: React.FC = () => {
     });
   }, [stocks, portfolio]);
   
-  // Generate news using OpenAI (in a real implementation)
   useEffect(() => {
-    // This would call the OpenAI service in a real implementation
-    // For now, we'll use the existing news from the market state
-    
-    // In a production app, we would do:
-    // if (market.marketIndexHistory.length > 1) {
-    //   const previousIndex = market.marketIndexHistory[market.marketIndexHistory.length - 2].price;
-    //   generateNewsHeadlines(
-    //     market.currentDate,
-    //     market.bubbleStage,
-    //     stocks,
-    //     market.marketIndex,
-    //     previousIndex
-    //   ).then(news => {
-    //     // Add news to market state
-    //   });
-    // }
   }, [market.currentDate]);
   
-  // Load game state
   const loadGameState = useCallback((savedGame: any) => {
-    // In a real implementation, this would properly restore the game state
-    // For this demo, we'll just log it
     console.log('Loading game state:', savedGame);
     
-    // We would do something like:
-    // setMarket(savedGame.market_state);
-    // setStocks(savedGame.stocks);
     setPortfolio(savedGame.portfolio);
     setCash(savedGame.cash);
     setSettings(savedGame.settings);
   }, []);
   
-  // Settings panel - memoized to prevent unnecessary rerenders
   const renderSettings = useMemo(() => (
     <SettingsContainer>
       <Fieldset label="Simulation Settings">
@@ -302,7 +268,6 @@ const AppContent: React.FC = () => {
     </SettingsContainer>
   ), [settings, resetSimulation]);
 
-  // Lazy-loaded tab content to improve performance
   const renderTabContent = () => {
     switch (activeTab) {
       case 0:
@@ -385,7 +350,6 @@ const AppContent: React.FC = () => {
     }
   };
   
-  // Show loading state
   if (loading) {
     return (
       <div style={{ 
@@ -400,16 +364,13 @@ const AppContent: React.FC = () => {
     );
   }
   
-  // Show auth screen if not logged in
   if (!user) {
     return <Auth onLogin={(user) => {
       console.log('User logged in:', user);
-      // Force a re-render when user logs in
       window.location.reload();
     }} />;
   }
   
-  // Show main application if logged in
   return (
     <Desktop>
       <AppContainer>
@@ -460,7 +421,6 @@ const AppContent: React.FC = () => {
   );
 };
 
-// Root component with providers
 const App: React.FC = () => {
   return (
     <ThemeWrapper>

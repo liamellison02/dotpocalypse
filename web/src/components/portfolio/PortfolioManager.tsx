@@ -80,7 +80,6 @@ const PortfolioManager: React.FC<PortfolioManagerProps> = ({
   const [selectedStock, setSelectedStock] = useState<string | null>(null);
   const [sharesToSell, setSharesToSell] = useState<number>(1);
   
-  // Calculate portfolio value and performance
   const calculatePortfolioValue = () => {
     return Object.entries(portfolio).reduce((total, [stockId, shares]) => {
       const stock = stocks.find(s => s.id === stockId);
@@ -91,19 +90,15 @@ const PortfolioManager: React.FC<PortfolioManagerProps> = ({
   const portfolioValue = calculatePortfolioValue();
   const totalAssets = cash + portfolioValue;
   
-  // Generate portfolio history data (simplified for demo)
   useEffect(() => {
-    // In a real implementation, we would track portfolio value over time
-    // For this demo, we'll generate synthetic data based on market index
     const history = marketIndexHistory.map(point => ({
       date: point.date,
-      value: point.price / 10 * (0.8 + Math.random() * 0.4), // Randomize a bit for demo
+      value: point.price / 10 * (0.8 + Math.random() * 0.4),
     }));
     
     setPortfolioHistory(history);
   }, [marketIndexHistory]);
   
-  // Calculate performance metrics
   const calculatePerformance = () => {
     if (portfolioHistory.length < 2) return { daily: 0, overall: 0 };
     
@@ -129,18 +124,17 @@ const PortfolioManager: React.FC<PortfolioManagerProps> = ({
     }).format(amount);
   };
   
-  // Format percentage
   const formatPercentage = (value: number) => {
     return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
   };
   
-  // Get portfolio stocks with details
+  // Get portfolio stocks
   const portfolioStocks = Object.entries(portfolio).map(([stockId, shares]) => {
     const stock = stocks.find(s => s.id === stockId);
     if (!stock) return null;
     
     const value = stock.price * shares;
-    const costBasis = stock.initialPrice * shares; // Simplified for demo
+    const costBasis = stock.initialPrice * shares;
     const profit = value - costBasis;
     const profitPercentage = (profit / costBasis) * 100;
     
@@ -163,7 +157,6 @@ const PortfolioManager: React.FC<PortfolioManagerProps> = ({
     profitPercentage: number;
   }>;
   
-  // Sort portfolio stocks by value (descending)
   portfolioStocks.sort((a, b) => b.value - a.value);
   
   // Calculate sector allocation
@@ -174,14 +167,12 @@ const PortfolioManager: React.FC<PortfolioManagerProps> = ({
     return acc;
   }, {} as {[key: string]: number});
   
-  // Convert to percentage
   const sectorAllocationPercentage = Object.entries(sectorAllocation).map(([sector, value]) => ({
     sector,
     value,
     percentage: (value / portfolioValue) * 100,
   }));
   
-  // Sort by percentage (descending)
   sectorAllocationPercentage.sort((a, b) => b.percentage - a.percentage);
   
   // Handle selling stocks

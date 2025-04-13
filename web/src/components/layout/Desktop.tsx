@@ -107,7 +107,7 @@ const Desktop: React.FC<DesktopProps> = ({ children }) => {
             )}
           </div>
           <span style={{ fontFamily: 'MS Sans Serif', fontSize: '12px' }}>
-            {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            Dotpocalypse | {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
         </Toolbar>
       </StyledAppBar>
