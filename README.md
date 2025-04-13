@@ -1,4 +1,4 @@
-# 💻 Dotpocalypse: Dotcom Bubble Portfolio Simulator 📈📉
+# 🚀 DOTPOCALYPSE 🚀 
 
 Imagine it's 1998 and you're given a Bloomberg Terminal and ChatGPT. Can you survive the infamous crash of the dot-com bubble?
 
@@ -101,51 +101,6 @@ dotpocalypse/
     ├── data/                 # Data files including company data
     └── App.tsx               # Main application component
 ```
-
-## 🚀 Getting Started
-
-### 📋 Prerequisites
-
-- Node.js 14+ and npm
-- Supabase account
-- OpenAI API key
-
-### ⚙️ Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/dotpocalypse.git
-cd dotpocalypse
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Create a `.env` file with your API keys:
-```
-REACT_APP_SUPABASE_URL=your_supabase_url
-REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
-REACT_APP_OPENAI_API_KEY=your_openai_api_key
-```
-
-4. Start the development server:
-```bash
-npm start
-```
-
-### 🗄️ Supabase Setup
-
-Follow the instructions in [DEPLOYMENT.md](DEPLOYMENT.md) to set up the required Supabase tables and security policies.
-
-## 🚀 Deployment
-
-For deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md).
-
-## 🧪 Testing
-
-For testing procedures, see [TESTING.md](TESTING.md).
 
 ## 📜 License
 
