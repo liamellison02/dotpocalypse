@@ -3,7 +3,6 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { styleReset } from 'react95';
 import original from 'react95/dist/themes/original';
 
-// Global style to apply Windows 98 styling across the application
 const GlobalStyles = createGlobalStyle`
   ${styleReset}
   body {
@@ -30,7 +29,6 @@ interface ThemeWrapperProps {
   children: React.ReactNode;
 }
 
-// Theme wrapper component to provide Windows 98 theme to the entire application
 const ThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }) => {
   return (
     <>

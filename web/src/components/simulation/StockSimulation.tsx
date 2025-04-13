@@ -69,9 +69,8 @@ const NewsItemContainer = styled.div`
   border-bottom: 1px solid #c0c0c0;
 `;
 
-// Increased height for graph containers
 const GraphContainer = styled.div`
-  height: 400px; // Increased from default
+  height: 400px;
 `;
 
 const StockSimulation: React.FC<SimulationProps> = ({ 
@@ -95,14 +94,12 @@ const StockSimulation: React.FC<SimulationProps> = ({
   
   // Generate simulated time based on date
   const getCurrentTime = useCallback(() => {
-    // Create a deterministic but seemingly random time based on the date
     const dateParts = market.currentDate.split('-');
     const day = parseInt(dateParts[2]);
     const month = parseInt(dateParts[1]);
     
-    // Use the day and month to generate hours and minutes
-    const hours = (9 + (day % 8)) % 24; // Market hours between 9 and 16 (9am to 4pm)
-    const minutes = ((month * day) % 60); // Minutes between 0 and 59
+    const hours = (9 + (day % 8)) % 24;
+    const minutes = ((month * day) % 60);
     
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
   }, [market.currentDate]);
@@ -157,12 +154,10 @@ const StockSimulation: React.FC<SimulationProps> = ({
     }
   }, [market.bubbleStage]);
 
-  // Generate portfolio history data for chart
   const portfolioHistoryData = useMemo(() => {
-    // This is a simplified version - in a real implementation, we would track portfolio value over time
     return market.marketIndexHistory.map((point: {date: string, price: number}) => ({
       date: point.date,
-      value: point.price / 10, // Just for demonstration
+      value: point.price / 10,
     }));
   }, [market.marketIndexHistory]);
 

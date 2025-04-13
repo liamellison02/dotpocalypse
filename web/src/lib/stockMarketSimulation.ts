@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 
-// Types for stock market simulation
 export interface Stock {
   id: string;
   name: string;
@@ -27,7 +26,7 @@ export interface NewsItem {
   headline: string;
   content: string;
   impact: 'positive' | 'negative' | 'neutral';
-  stockId?: string; // Optional - if news affects a specific stock
+  stockId?: string;
 }
 
 export interface MarketState {
@@ -35,21 +34,21 @@ export interface MarketState {
   marketIndex: number;
   marketIndexHistory: PricePoint[];
   bubbleStage: 'early' | 'growth' | 'mania' | 'peak' | 'decline' | 'crash';
-  volatility: number; // 0-1 scale
-  sentiment: number; // 0-1 scale (0 = bearish, 1 = bullish)
+  volatility: number;
+  sentiment: number;
   news: NewsItem[];
-  crashWarningShown: boolean; // Flag to track if crash warning has been shown
-  crashProbability: number; // Probability of crash (0-1)
-  crashSeverity: number; // How severe the crash will be (0-1)
+  crashWarningShown: boolean;
+  crashProbability: number;
+  crashSeverity: number;
 }
 
 export interface SimulationSettings {
   startYear: number;
   startMonth: number;
-  crashYear?: number; // Optional - if user wants to control when crash happens
-  volatilityFactor: number; // 0.5-2.0 multiplier for overall volatility
-  timeScale: number; // How many days pass per simulation tick
-  crashRandomness: number; // 0-1, how random the crash timing is (0 = deterministic, 1 = fully random)
+  crashYear?: number;
+  volatilityFactor: number;
+  timeScale: number;
+  crashRandomness: number;
 }
 
 // Default simulation settings
@@ -57,8 +56,8 @@ const defaultSettings: SimulationSettings = {
   startYear: 1998,
   startMonth: 1,
   volatilityFactor: 1.0,
-  timeScale: 1, // 1 day per tick (changed from 7)
-  crashRandomness: 0.7, // Somewhat random crash timing
+  timeScale: 1,
+  crashRandomness: 0.7,
 };
 
 // Helper functions for simulation
@@ -105,7 +104,7 @@ export const useStockMarketSimulation = (
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [market, setMarket] = useState<MarketState>({
     currentDate: formatDate(settings.startYear, settings.startMonth, 1),
-    marketIndex: 1000, // Starting index value
+    marketIndex: 1000,
     marketIndexHistory: [
       {
         date: formatDate(settings.startYear, settings.startMonth, 1),
@@ -121,7 +120,7 @@ export const useStockMarketSimulation = (
     crashSeverity: 0.5,
   });
   const [isRunning, setIsRunning] = useState(false);
-  const [simulationSpeed, setSimulationSpeed] = useState(3000); // ms between ticks (slowed down from 1000)
+  const [simulationSpeed, setSimulationSpeed] = useState(3000);
   const [gameOver, setGameOver] = useState(false);
   const [crashEvents, setCrashEvents] = useState<{
     warningDate: string | null;
@@ -133,12 +132,10 @@ export const useStockMarketSimulation = (
     peakIndex: 0,
   });
 
-  // Initialize simulation
   useEffect(() => {
     if (initialStocks.length > 0) {
       const startDate = formatDate(settings.startYear, settings.startMonth, 1);
       
-      // Initialize stocks with price history
       const initializedStocks = initialStocks.map(stock => ({
         ...stock,
         id: stock.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
@@ -155,14 +152,11 @@ export const useStockMarketSimulation = (
       
       setStocks(initializedStocks);
       
-      // Determine crash timing
       determineCrashTiming(settings);
     }
   }, [initialStocks, settings]);
 
-  // Generate a stock symbol from company name
   const generateStockSymbol = (name: string): string => {
-    // Extract first letters of words, uppercase, max 5 chars
     const symbol = name
       .split(/\s+/)
       .map(word => word[0])
@@ -170,7 +164,6 @@ export const useStockMarketSimulation = (
       .toUpperCase()
       .slice(0, 5);
     
-    // If symbol is too short, add consonants from name
     if (symbol.length < 3) {
       const consonants = name
         .toUpperCase()
@@ -182,27 +175,20 @@ export const useStockMarketSimulation = (
     return symbol;
   };
 
-  // Determine when the crash will happen
   const determineCrashTiming = (settings: SimulationSettings) => {
-    // Default crash timing (March 2000 - historical NASDAQ peak)
     let crashYear = 2000;
     let crashMonth = 3;
     
-    // If user specified a crash year, use that
     if (settings.crashYear) {
       crashYear = settings.crashYear;
-      // Random month if not March
       crashMonth = crashYear === 2000 ? 3 : Math.floor(Math.random() * 12) + 1;
     } else {
-      // Add some randomness based on crashRandomness setting
       if (Math.random() < settings.crashRandomness) {
-        // Randomly adjust crash timing within 2002-2004 range as specified in requirements
         crashYear = Math.floor(Math.random() * 3) + 2002;
         crashMonth = Math.floor(Math.random() * 12) + 1;
       }
     }
     
-    // Calculate warning date (1-3 months before crash)
     const warningMonthsAhead = Math.floor(Math.random() * 3) + 1;
     let warningYear = crashYear;
     let warningMonth = crashMonth - warningMonthsAhead;
@@ -215,21 +201,18 @@ export const useStockMarketSimulation = (
     setCrashEvents({
       warningDate: formatDate(warningYear, warningMonth, 15),
       crashDate: formatDate(crashYear, crashMonth, 15),
-      peakIndex: 0, // Will be set when peak is reached
+      peakIndex: 0,
     });
   };
 
-  // Advance simulation by one tick
   const advanceSimulation = () => {
     if (gameOver) return;
     
-    // Update market state
     setMarket(prevMarket => {
       const newDate = addDays(prevMarket.currentDate, settings.timeScale);
       const currentYear = parseInt(newDate.split('-')[0]);
       const currentMonth = parseInt(newDate.split('-')[1]);
       
-      // Determine bubble stage based on date and crash events
       let newBubbleStage = prevMarket.bubbleStage;
       let newVolatility = prevMarket.volatility;
       let newSentiment = prevMarket.sentiment;
@@ -237,12 +220,10 @@ export const useStockMarketSimulation = (
       let newCrashWarningShown = prevMarket.crashWarningShown;
       let newCrashSeverity = prevMarket.crashSeverity;
       
-      // Check if we've reached the warning date
       if (crashEvents.warningDate && newDate >= crashEvents.warningDate && !newCrashWarningShown) {
         newCrashWarningShown = true;
-        newCrashProbability = 0.3; // Initial crash probability after warning
+        newCrashProbability = 0.3;
         
-        // Generate warning news
         const warningNews: NewsItem = {
           id: `crash-warning-${Date.now()}`,
           date: newDate,
@@ -251,27 +232,21 @@ export const useStockMarketSimulation = (
           impact: 'negative'
         };
         
-        // Add warning news
         prevMarket.news.unshift(warningNews);
       }
       
-      // Check if we've reached the crash date
       if (crashEvents.crashDate && newDate >= crashEvents.crashDate) {
-        // Once we reach crash date, increase crash probability significantly
         newCrashProbability = Math.min(newCrashProbability + 0.1, 0.95);
         
-        // Determine crash severity based on how far past crash date we are
         const daysPastCrashDate = (new Date(newDate).getTime() - new Date(crashEvents.crashDate).getTime()) / (1000 * 60 * 60 * 24);
         newCrashSeverity = Math.min(0.5 + (daysPastCrashDate / 30) * 0.5, 1.0);
       }
       
-      // Roll for crash if probability is high enough
       if (newCrashProbability > 0 && Math.random() < newCrashProbability * 0.1) {
         newBubbleStage = 'crash';
         newVolatility = 1.0;
         newSentiment = 0.1 + getRandomFloat(0, 0.1);
         
-        // Generate crash news
         const crashNews: NewsItem = {
           id: `crash-event-${Date.now()}`,
           date: newDate,
@@ -280,10 +255,8 @@ export const useStockMarketSimulation = (
           impact: 'negative'
         };
         
-        // Add crash news
         prevMarket.news.unshift(crashNews);
         
-        // Record peak index if not already set
         if (crashEvents.peakIndex === 0) {
           setCrashEvents(prev => ({
             ...prev,
@@ -291,8 +264,8 @@ export const useStockMarketSimulation = (
           }));
         }
       } 
-      // Simple bubble progression based on time if not in crash
-      else if (newBubbleStage !== 'crash') {
+      
+      if (newBubbleStage !== 'crash') {
         if (currentYear < 1999) {
           newBubbleStage = 'early';
           newVolatility = 0.2;
@@ -316,7 +289,6 @@ export const useStockMarketSimulation = (
         }
       }
       
-      // Calculate new market index
       let indexChange = 0;
       
       switch (newBubbleStage) {
@@ -336,14 +308,12 @@ export const useStockMarketSimulation = (
           indexChange = getRandomFloat(-0.08, 0.02) * settings.volatilityFactor;
           break;
         case 'crash':
-          // More severe crash based on crash severity
           indexChange = getRandomFloat(-0.15 * newCrashSeverity, 0.01) * settings.volatilityFactor;
           break;
       }
       
       const newMarketIndex = Math.max(100, prevMarket.marketIndex * (1 + indexChange));
       
-      // Check if game should end (sometime after crash begins and market drops significantly)
       if (newBubbleStage === 'crash' && 
           newMarketIndex < prevMarket.marketIndex * 0.7 && 
           currentYear >= 2002 && 
@@ -371,44 +341,34 @@ export const useStockMarketSimulation = (
       };
     });
     
-    // Update stock prices
     setStocks(prevStocks => {
       return prevStocks.map(stock => {
-        // Calculate price change based on stock properties and market conditions
         const volatilityFactor = getVolatilityFactor(stock.volatility);
         const survivalFactor = getSurvivalFactor(stock.survivalChance);
-        const marketInfluence = market.bubbleStage === 'crash' ? 0.7 : 0.4; // How much market affects stock
+        const marketInfluence = market.bubbleStage === 'crash' ? 0.7 : 0.4;
         
-        // Base change is influenced by market sentiment and stock's own factors
         let baseChange = getRandomFloat(-0.05, 0.05) * volatilityFactor * settings.volatilityFactor;
         
-        // Add market influence
         const marketChange = ((market.marketIndex / market.marketIndexHistory[0].price) - 1) * marketInfluence;
         baseChange += marketChange * getRandomFloat(0.5, 1.5);
         
-        // Adjust for bubble stage
         if (market.bubbleStage === 'mania' && stock.category === 'E-commerce') {
-          baseChange += getRandomFloat(0, 0.05); // E-commerce stocks boom in mania phase
+          baseChange += getRandomFloat(0, 0.05);
         }
         
         if (market.bubbleStage === 'crash') {
-          // Stocks with low survival chance crash harder
           const crashImpact = (1 - survivalFactor) * getRandomFloat(0.01, 0.1) * market.crashSeverity;
           baseChange -= crashImpact;
           
-          // Some stocks might go bankrupt during crash
           if (stock.survivalChance === 'very low' && Math.random() < 0.05 * market.crashSeverity) {
-            baseChange = -0.5; // Catastrophic loss
+            baseChange = -0.5;
           }
         }
         
-        // Calculate new price
         let newPrice = stock.price * (1 + baseChange);
         
-        // Ensure price doesn't go below 0.1
         newPrice = Math.max(0.1, newPrice);
         
-        // Ensure price doesn't exceed peak price too much during bubble
         if (market.bubbleStage !== 'crash' && newPrice > stock.peakPrice * 1.5) {
           newPrice = stock.peakPrice * (1 + getRandomFloat(0, 0.5));
         }
@@ -428,12 +388,9 @@ export const useStockMarketSimulation = (
     });
   };
 
-  // Start/stop simulation
   const toggleSimulation = () => {
     setIsRunning(!isRunning);
   };
-
-  // Run simulation when isRunning is true
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
@@ -446,18 +403,14 @@ export const useStockMarketSimulation = (
     };
   }, [isRunning, simulationSpeed, gameOver]);
 
-  // Advance to next day (skips directly to next day regardless of timeScale)
   const advanceToNextDay = () => {
     if (gameOver) return;
     
-    // Update market state
     setMarket(prevMarket => {
-      // Always advance by exactly 1 day
       const newDate = addDays(prevMarket.currentDate, 1);
       const currentYear = parseInt(newDate.split('-')[0]);
       const currentMonth = parseInt(newDate.split('-')[1]);
       
-      // Determine bubble stage based on date and crash events
       let newBubbleStage = prevMarket.bubbleStage;
       let newVolatility = prevMarket.volatility;
       let newSentiment = prevMarket.sentiment;
@@ -465,12 +418,10 @@ export const useStockMarketSimulation = (
       let newCrashWarningShown = prevMarket.crashWarningShown;
       let newCrashSeverity = prevMarket.crashSeverity;
       
-      // Check if we've reached the warning date
       if (crashEvents.warningDate && newDate >= crashEvents.warningDate && !newCrashWarningShown) {
         newCrashWarningShown = true;
-        newCrashProbability = 0.3; // Initial crash probability after warning
+        newCrashProbability = 0.3;
         
-        // Generate warning news
         const warningNews: NewsItem = {
           id: `crash-warning-${Date.now()}`,
           date: newDate,
@@ -479,27 +430,21 @@ export const useStockMarketSimulation = (
           impact: 'negative'
         };
         
-        // Add warning news
         prevMarket.news.unshift(warningNews);
       }
       
-      // Check if we've reached the crash date
       if (crashEvents.crashDate && newDate >= crashEvents.crashDate) {
-        // Once we reach crash date, increase crash probability significantly
         newCrashProbability = Math.min(newCrashProbability + 0.1, 0.95);
         
-        // Determine crash severity based on how far past crash date we are
         const daysPastCrashDate = (new Date(newDate).getTime() - new Date(crashEvents.crashDate).getTime()) / (1000 * 60 * 60 * 24);
         newCrashSeverity = Math.min(0.5 + (daysPastCrashDate / 30) * 0.5, 1.0);
       }
       
-      // Roll for crash if probability is high enough
       if (newCrashProbability > 0 && Math.random() < newCrashProbability * 0.1) {
         newBubbleStage = 'crash';
         newVolatility = 1.0;
         newSentiment = 0.1 + getRandomFloat(0, 0.1);
         
-        // Generate crash news
         const crashNews: NewsItem = {
           id: `crash-event-${Date.now()}`,
           date: newDate,
@@ -508,10 +453,8 @@ export const useStockMarketSimulation = (
           impact: 'negative'
         };
         
-        // Add crash news
         prevMarket.news.unshift(crashNews);
         
-        // Record peak index if not already set
         if (crashEvents.peakIndex === 0) {
           setCrashEvents(prev => ({
             ...prev,
@@ -519,8 +462,8 @@ export const useStockMarketSimulation = (
           }));
         }
       } 
-      // Simple bubble progression based on time if not in crash
-      else if (newBubbleStage !== 'crash') {
+      
+      if (newBubbleStage !== 'crash') {
         if (currentYear < 1999) {
           newBubbleStage = 'early';
           newVolatility = 0.2;
@@ -544,7 +487,6 @@ export const useStockMarketSimulation = (
         }
       }
       
-      // Calculate new market index
       let indexChange = 0;
       
       switch (newBubbleStage) {
@@ -564,14 +506,12 @@ export const useStockMarketSimulation = (
           indexChange = getRandomFloat(-0.08, 0.02) * settings.volatilityFactor;
           break;
         case 'crash':
-          // More severe crash based on crash severity
           indexChange = getRandomFloat(-0.15 * newCrashSeverity, 0.01) * settings.volatilityFactor;
           break;
       }
       
       const newMarketIndex = Math.max(100, prevMarket.marketIndex * (1 + indexChange));
       
-      // Check if game should end (sometime after crash begins and market drops significantly)
       if (newBubbleStage === 'crash' && 
           newMarketIndex < prevMarket.marketIndex * 0.7 && 
           currentYear >= 2002 && 
@@ -599,44 +539,34 @@ export const useStockMarketSimulation = (
       };
     });
     
-    // Update stock prices
     setStocks(prevStocks => {
       return prevStocks.map(stock => {
-        // Calculate price change based on stock properties and market conditions
         const volatilityFactor = getVolatilityFactor(stock.volatility);
         const survivalFactor = getSurvivalFactor(stock.survivalChance);
-        const marketInfluence = market.bubbleStage === 'crash' ? 0.7 : 0.4; // How much market affects stock
+        const marketInfluence = market.bubbleStage === 'crash' ? 0.7 : 0.4;
         
-        // Base change is influenced by market sentiment and stock's own factors
         let baseChange = getRandomFloat(-0.05, 0.05) * volatilityFactor * settings.volatilityFactor;
         
-        // Add market influence
         const marketChange = ((market.marketIndex / market.marketIndexHistory[0].price) - 1) * marketInfluence;
         baseChange += marketChange * getRandomFloat(0.5, 1.5);
         
-        // Adjust for bubble stage
         if (market.bubbleStage === 'mania' && stock.category === 'E-commerce') {
-          baseChange += getRandomFloat(0, 0.05); // E-commerce stocks boom in mania phase
+          baseChange += getRandomFloat(0, 0.05);
         }
         
         if (market.bubbleStage === 'crash') {
-          // Stocks with low survival chance crash harder
           const crashImpact = (1 - survivalFactor) * getRandomFloat(0.01, 0.1) * market.crashSeverity;
           baseChange -= crashImpact;
           
-          // Some stocks might go bankrupt during crash
           if (stock.survivalChance === 'very low' && Math.random() < 0.05 * market.crashSeverity) {
-            baseChange = -0.5; // Catastrophic loss
+            baseChange = -0.5;
           }
         }
         
-        // Calculate new price
         let newPrice = stock.price * (1 + baseChange);
         
-        // Ensure price doesn't go below 0.1
         newPrice = Math.max(0.1, newPrice);
         
-        // Ensure price doesn't exceed peak price too much during bubble
         if (market.bubbleStage !== 'crash' && newPrice > stock.peakPrice * 1.5) {
           newPrice = stock.peakPrice * (1 + getRandomFloat(0, 0.5));
         }
@@ -656,14 +586,11 @@ export const useStockMarketSimulation = (
     });
   };
 
-  // Change simulation speed
   const setSpeed = (speed: number) => {
     setSimulationSpeed(speed);
   };
 
-  // Reset simulation
   const resetSimulation = () => {
-    // Reset to initial state
     const startDate = formatDate(settings.startYear, settings.startMonth, 1);
     
     setMarket({
@@ -701,7 +628,6 @@ export const useStockMarketSimulation = (
     setGameOver(false);
     setIsRunning(false);
     
-    // Determine new crash timing
     determineCrashTiming(settings);
   };
 
